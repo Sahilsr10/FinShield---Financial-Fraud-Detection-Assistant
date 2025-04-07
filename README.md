@@ -135,7 +135,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For questions, suggestions, or collaborations:
 
 [![GitHub Issues](https://img.shields.io/github/issues/yourusername/finshield?style=flat-square)](https://github.com/yourusername/finshield/issues)
-[![Email](https://img.shields.io/badge/Email-contact%40example.com-blue?style=flat-square&logo=gmail)](mailto:contact@example.com)
+[![Email](https://img.shields.io/badge/Email-contact%40example.com-blue?style=flat-square&logo=gmail)](mailto:sahilsrivastava773@gmail.com)
 
 ---
 
