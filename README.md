@@ -6,7 +6,6 @@
 
 An intelligent, user-friendly web application that helps users identify potential financial fraud, provides security tips, and offers guidance on protecting financial assets.
 
-![FinShield Demo](/api/placeholder/800/400)
 
 ## 🔐 Features
 
