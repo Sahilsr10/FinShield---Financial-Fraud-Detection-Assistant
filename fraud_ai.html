@@ -3,11 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FinShield - Financial Fraud Detection Assistant</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css"
-    />
+    <title>FinShield - Financial Fraud Detection</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -15,186 +11,209 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
       :root {
-        --primary: #2a4365;
+        --primary: #ffffff;
         --secondary: #30a6b7;
-        --light: #f8fafc;
-        --dark: #1a365d;
-        --warning: #ed8936;
-        --danger: #e53e3e;
-        --success: #38a169;
+        --accent: #30a6b7;
+        --background: #000000;
+        --text: #ffffff;
+        --subtle-text: #888888;
+        --subtle-bg: #1a1a1a;
+        --input-bg: #111111;
+        --border: #333333;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
       
       body {
-        background-color: #edf2f7;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #2d3748;
+        background-color: var(--background);
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow-x: hidden;
       }
       
-      .navbar {
-        background-color: var(--primary);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      /* Background text effect */
+      .bg-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        z-index: -1;
       }
       
-      .navbar-brand {
-        color: white;
-        font-weight: 600;
-        font-size: 1.5rem;
+      .bg-text:after {
+        content: "FinShield";
+        font-size: 45vw;
+        font-weight: bold;
+        color: #0a0a0a;
+        opacity: 0.5;
+        letter-spacing: -10px;
+        transform: translateY(15%);
       }
       
       .container {
-        max-width: 900px;
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
       }
       
-      .chat-container {
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        padding: 30px;
-        margin-top: 30px;
+      /* Header */
+      header {
+        padding: 30px 0;
+        border-bottom: 1px solid var(--border);
       }
       
-      .chat-title {
-        color: var(--primary);
-        font-weight: 600;
-        margin-bottom: 25px;
-        border-bottom: 2px solid #e2e8f0;
-        padding-bottom: 15px;
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       
-      .input-group {
-        margin-bottom: 25px;
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: var(--text);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
       }
       
-      .form-control {
-        border-radius: 8px 0 0 8px;
-        padding: 12px 20px;
-        border: 1px solid #cbd5e0;
+      .logo i {
+        margin-right: 10px;
+        color: var(--accent);
       }
       
-      .form-control:focus {
-        border-color: var(--secondary);
-        box-shadow: 0 0 0 0.2rem rgba(48, 166, 183, 0.25);
+      .nav-links {
+        display: flex;
+        gap: 40px;
       }
       
-      .btn-primary {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
-        border-radius: 0 8px 8px 0;
-        padding: 12px 25px;
+      .nav-links a {
+        color: var(--subtle-text);
+        text-decoration: none;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
       }
       
-      .btn-primary:hover, .btn-primary:focus {
-        background-color: #2b95a3;
-        border-color: #2b95a3;
+      .nav-links a:hover {
+        color: var(--text);
       }
       
-      #response {
-        background-color: #f7fafc;
-        border-radius: 8px;
-        padding: 20px;
-        min-height: 300px;
-        max-height: 500px;
-        overflow-y: auto;
-        border-left: 4px solid var(--secondary);
+      /* Hero */
+      .hero {
+        padding: 100px 0;
+        text-align: center;
       }
       
-      #response h3 {
-        color: var(--primary);
-        font-size: 1.2em;
-        margin-bottom: 15px;
-      }
-      
-      #response strong {
-        color: var(--danger);
-      }
-      
-      #response .alert-danger {
-        color: var(--danger);
-        background-color: #fed7d7;
-        border-color: #feb2b2;
-        padding: 12px 20px;
-        border-radius: 6px;
-        margin-top: 10px;
-      }
-      
-      #response .alert-warning {
-        color: #744210;
-        background-color: #fefcbf;
-        border-color: #fbd38d;
-        padding: 12px 20px;
-        border-radius: 6px;
-        margin-top: 10px;
-      }
-      
-      #response .alert-success {
-        color: #2f855a;
-        background-color: #c6f6d5;
-        border-color: #9ae6b4;
-        padding: 12px 20px;
-        border-radius: 6px;
-        margin-top: 10px;
-      }
-      
-      .feature-box {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 500;
         margin-bottom: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease;
+        letter-spacing: -1px;
       }
       
-      .feature-box:hover {
-        transform: translateY(-5px);
+      .hero p {
+        color: var(--subtle-text);
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 60px;
       }
       
-      .feature-icon {
-        font-size: 2rem;
-        color: var(--secondary);
-        margin-bottom: 15px;
+      /* Chat interface */
+      .chat-container {
+        background-color: var(--subtle-bg);
+        border-radius: 12px;
+        margin: 0 auto;
+        max-width: 800px;
+        overflow: hidden;
       }
       
-      .footer {
-        background-color: var(--primary);
-        color: white;
-        padding: 20px 0;
-        margin-top: 50px;
+      .input-container {
+        display: flex;
+        margin: 40px auto;
+        width: 100%;
+        max-width: 700px;
+        position: relative;
+      }
+      
+      .input-field {
+        flex: 1;
+        background-color: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: 2rem;
+        color: var(--text);
+        font-size: 1rem;
+        padding: 15px 60px 15px 25px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+      
+      .input-field:focus {
+        border-color: var(--accent);
+      }
+      
+      .submit-btn {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--accent);
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+      
+      /* Response area */
+      .response-area {
+        padding: 30px;
+        min-height: 200px;
+        color: var(--text);
       }
       
       .loading {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
       }
       
       .loading div {
-        position: absolute;
-        width: 16px;
-        height: 16px;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
-        background: var(--secondary);
-        animation: loading 1.2s linear infinite;
-      }
-      
-      .loading div:nth-child(1) {
-        animation-delay: 0s;
-        left: 8px;
+        background: var(--accent);
+        animation: pulse 1.5s infinite ease-in-out;
       }
       
       .loading div:nth-child(2) {
-        animation-delay: 0.4s;
-        left: 32px;
+        animation-delay: 0.3s;
       }
       
       .loading div:nth-child(3) {
-        animation-delay: 0.8s;
-        left: 56px;
+        animation-delay: 0.6s;
       }
       
-      @keyframes loading {
+      @keyframes pulse {
         0%, 100% {
-          opacity: 0.2;
+          opacity: 0.4;
           transform: scale(0.8);
         }
         50% {
@@ -203,153 +222,133 @@
         }
       }
       
+      /* Chat history */
       .chat-history {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        padding: 0 30px;
       }
       
       .message {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+      }
+      
+      .user-message, .bot-message {
+        padding: 15px 20px;
+        border-radius: 8px;
+        max-width: 80%;
       }
       
       .user-message {
-        background-color: #ebf8ff;
-        border-radius: 18px 18px 0 18px;
-        padding: 12px 20px;
-        margin-left: 40px;
-        position: relative;
+        background-color: var(--subtle-bg);
+        margin-left: auto;
       }
       
       .bot-message {
-        background-color: #e6fffa;
-        border-radius: 18px 18px 18px 0;
-        padding: 12px 20px;
-        margin-right: 40px;
-        position: relative;
+        background-color: var(--input-bg);
       }
       
       .message-time {
         font-size: 0.75rem;
-        color: #718096;
+        color: var(--subtle-text);
         margin-top: 5px;
       }
       
+      /* Footer */
+      footer {
+        margin-top: auto;
+        padding: 30px 0;
+        text-align: center;
+        color: var(--subtle-text);
+        border-top: 1px solid var(--border);
+        font-size: 0.8rem;
+      }
+      
+      /* Try button */
+      .try-btn {
+        display: inline-block;
+        background-color: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        padding: 10px 30px;
+        border-radius: 2rem;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+      }
+      
+      .try-btn:hover {
+        background-color: var(--primary);
+        color: var(--background);
+      }
+      
+      /* Disclaimer */
       .disclaimer {
         font-size: 0.8rem;
-        color: #718096;
-        margin-top: 20px;
-        padding-top: 10px;
-        border-top: 1px solid #e2e8f0;
+        color: var(--subtle-text);
+        padding: 20px 30px;
+        border-top: 1px solid var(--border);
       }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Background text effect -->
+    <div class="bg-text"></div>
+    
+    <header>
       <div class="container">
-        <a class="navbar-brand" href="#">
-          <i class="fas fa-shield-alt me-2"></i>FinShield
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <!-- <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Resources</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li> -->
-          </ul>
-        </div>
+        <nav class="navbar">
+          <a href="#" class="logo">
+            <i class="fas fa-shield-alt"></i>FinShield
+          </a>
+          <div class="nav-links">
+            <a href="#">About</a>
+            <a href="#">Features</a>
+            <a href="#">Resources</a>
+            <a href="#">API</a>
+          </div>
+        </nav>
       </div>
-    </nav>
+    </header>
 
     <div class="container">
-      <div class="row mt-4">
-        <div class="col-12">
-          <h1 class="text-center mb-4">Financial Fraud Detection Assistant</h1>
-          <p class="text-center lead">
-            Ask questions about suspicious financial activities, fraud prevention, 
-            or get help analyzing potential scams.
-          </p>
-        </div>
-      </div>
+      <section class="hero">
+        <h1>Financial Fraud Detection</h1>
+        <p>
+          Your advanced companion for unfiltered insights on financial fraud prevention, detection, and protection
+        </p>
+      </section>
 
-      <div class="row mb-4">
-        <div class="col-md-4">
-          <div class="feature-box text-center">
-            <div class="feature-icon">
-              <i class="fas fa-search"></i>
-            </div>
-            <h3>Fraud Detection</h3>
-            <p>Analyze transactions and identify potential fraudulent patterns</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-box text-center">
-            <div class="feature-icon">
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <h3>Security Tips</h3>
-            <p>Get practical advice to protect your financial assets</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-box text-center">
-            <div class="feature-icon">
-              <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3>Scam Alerts</h3>
-            <p>Stay informed about the latest financial scams and threats</p>
-          </div>
-        </div>
+      <div class="input-container">
+        <input
+          type="text"
+          class="input-field"
+          id="userInput"
+          placeholder="Ask about financial fraud prevention..."
+        />
+        <button class="submit-btn" onclick="sendMessage()">
+          <i class="fas fa-arrow-right"></i>
+        </button>
       </div>
 
       <div class="chat-container">
-        <h2 class="chat-title">
-          <i class="fas fa-comments me-2"></i>Financial Fraud Consultant
-        </h2>
-        
         <div id="chatHistory" class="chat-history"></div>
         
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            id="userInput"
-            placeholder="Describe a suspicious transaction or ask about fraud prevention..."
-          />
-          <button class="btn btn-primary" onclick="sendMessage()">
-            <i class="fas fa-paper-plane me-2"></i>Ask
-          </button>
-        </div>
-        
-        <div id="response"></div>
+        <div id="response" class="response-area"></div>
         
         <div class="disclaimer">
-          <p><strong>Disclaimer:</strong> This AI assistant provides general information about financial fraud but is not a substitute for professional financial or legal advice. If you believe you're a victim of fraud, contact your financial institution and local authorities immediately.</p>
+          <p><strong>Disclaimer:</strong> This AI assistant provides general information about financial fraud but is not a substitute for professional financial or legal advice.</p>
         </div>
       </div>
     </div>
 
-    <footer class="footer mt-5">
-      <div class="container text-center">
+    <footer>
+      <div class="container">
         <p>&copy; 2025 FinShield - Financial Fraud Detection Assistant</p>
       </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
     <script>
       // Initialize chat history
       let chatHistory = [];
@@ -389,7 +388,6 @@
         const responseDiv = document.getElementById("response");
         
         if (!input) {
-          responseDiv.innerHTML = "<div class='alert alert-warning'>Please enter a message.</div>";
           return;
         }
         
@@ -403,7 +401,6 @@
             <div></div>
             <div></div>
           </div>
-          <p class="mt-3">Analyzing your query...</p>
         `;
         inputField.value = "";
 
@@ -416,7 +413,7 @@
             {
               method: "POST",
               headers: {
-                 Authorization: "Bearer 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", // "Add your own API key after Bearer"
+                Authorization: "Bearer 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",
                 "HTTP-Referer": "https://www.finshield.com",
                 "X-Title": "FinShield - Fraud Detection Assistant",
                 "Content-Type": "application/json",
@@ -429,7 +426,6 @@
           );
           
           const data = await response.json();
-          console.log("Raw API response:", data);
 
           if (response.ok && data.choices?.[0]?.message?.content) {
             const markdownText = data.choices[0].message.content;
@@ -438,49 +434,25 @@
             // Add bot response to chat history
             addMessageToChatHistory(data.choices[0].message.content.substring(0, 100) + "...", false);
             chatHistory.push({ role: "assistant", content: data.choices[0].message.content });
-            
-            // Add financial warning class to certain keywords in the response
-            highlightFinancialRisks(responseDiv);
           } else {
-            responseDiv.innerHTML = "<div class='alert alert-danger'>API Error: " + (data.error?.message || "Unexpected response.") + "</div>";
+            responseDiv.innerHTML = "An error occurred while processing your request.";
           }
         } catch (error) {
-          responseDiv.innerHTML = "<div class='alert alert-danger'>Error: " + error.message + "</div>";
+          responseDiv.innerHTML = "Connection error. Please try again.";
         }
-      }
-      
-      function highlightFinancialRisks(element) {
-        const riskTerms = [
-          'scam', 'fraud', 'phishing', 'suspicious', 'unauthorized',
-          'identity theft', 'data breach', 'malware', 'ransomware',
-          'money laundering', 'high risk'
-        ];
-        
-        // Simple highlighting for risk terms
-        let html = element.innerHTML;
-        riskTerms.forEach(term => {
-          const regex = new RegExp('\\b' + term + '\\b', 'gi');
-          html = html.replace(regex, `<span class="text-danger fw-bold">$&</span>`);
-        });
-        element.innerHTML = html;
       }
       
       // Sample welcome message
       window.onload = function() {
         const responseDiv = document.getElementById("response");
-        responseDiv.innerHTML = marked.parse(`
-## Welcome to FinShield!
-
-I'm your financial fraud prevention assistant. You can ask me about:
-
-* Suspicious transactions or emails
-* How to protect your financial accounts
-* Common fraud techniques and how to avoid them
-* Warning signs of financial scams
-* Steps to take if you suspect you're a victim of fraud
-
-**Try asking a question about financial security or fraud prevention.**
-        `);
+        responseDiv.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px;">
+            <h2 style="font-weight: 400; margin-bottom: 20px;">FinShield AI</h2>
+            <p style="color: #888888; max-width: 500px; margin: 0 auto;">
+              Your advanced companion for unfiltered answers about financial fraud prevention and detection.
+            </p>
+          </div>
+        `;
       }
     </script>
   </body>
